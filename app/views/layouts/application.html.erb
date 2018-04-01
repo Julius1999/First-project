@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>CjyApp</title>
-    <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+<head>
+  <title>
+    
+  </title>
+  
+  <%= render 'layouts/shim' %>
+</head>
 
-  <body>
-    <%= yield %>
-  </body>
+<body>
+  <%= render 'layouts/header' %>
+    <div class="container">
+      <%= yield %>
+      <% render 'layouts/_footer' %>
+    </div>
+</body>
+
 </html>
