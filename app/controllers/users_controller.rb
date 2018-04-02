@@ -5,5 +5,22 @@ class UsersController < ApplicationController
   end
   
   def new
+    @user = User.new
   end
+
+  def create
+    @user = User.new(params[:user]) # 不是最终的实现方式
+    if @user.save
+      flash[:success] = "Welcome to the Sample App!"
+      #用户注册成功后显示一个闪现消息
+      redirect_to @user
+      # 处理注册成功的情况
+    else
+      render 'new'
+    end
+  end
+  private
+   def user_params
+     params.require(:user).permit(:name, :email, :password,
+   end
 end

@@ -1,6 +1,8 @@
 class User < ApplicationRecord
+  
+
   before_save { self.email = email.downcase }
-  before_save 后有一个块，块中的代码调用字符串的 downcase 方法，把用户的电子邮件 地址转换成小写形式。
+  # before_save 后有一个块，块中的代码调用字符串的 downcase 方法，把用户的电子邮件 地址转换成小写形式。
   #   before_save { email.downcase! }
   # #before_save 回调的另一种实现方式
     vaildates:name, presence: true,length:{maximum: 50}
