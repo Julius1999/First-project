@@ -15,4 +15,6 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   resources :users
+  resources :account_activations, only: [:edit]
+  # 为 AccountActivations 控制器的 edit 动作添加路由
 end
