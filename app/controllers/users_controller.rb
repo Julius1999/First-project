@@ -1,11 +1,12 @@
 class UsersController < ApplicationController
-before_action:logged_in_user,only:[:index,:edit,:update, :destroy]  
-# 保护 edit 和 update 动作的 correct_user 前置过滤器
-before_action:correct_user, only:[:edit,:update]
-before_action:admin_user, only: :destroy
-# 添加 logged_in_user 前置过滤器
+ before_action:logged_in_user,only:[:index,:edit,:update, :destroy]  
+ # 保护 edit 和 update 动作的 correct_user 前置过滤器
+ before_action:correct_user, only:[:edit,:update]
+ before_action:admin_user, only: :destroy
+ # 添加 logged_in_user 前置过滤器
   def show
     @user = User.find(params[:id])
+    @micropposts = @user.micropposts.paginate(page:params[:page])
     
   end
   
@@ -17,12 +18,9 @@ before_action:admin_user, only: :destroy
     @user = User.new(user_params) 
     # 创建用户，param获取user
     if @user.save
-      log_in @user
-      # 注册后登入用户
-      flash[:success] = "Welcome to the Sample App!"
-      #用户注册成功后显示一个闪现消息
-      redirect_to @user
-      # 处理注册成功的情况
+      @user.send_activation_email
+      flash[:info] = "Please check your email to activate your account."
+      redirect_to root_url
     else
       render 'new'
     end
@@ -45,9 +43,14 @@ before_action:admin_user, only: :destroy
   end
   # :Users 控制器的 index 动作
   dex index
-     @users = User.paginate(page: params[:page])
+      @users = User.where(activated: FILL_IN).paginate(page: params[:page])
   end
 
+  def show
+    @user = User.find(params[:id])
+    redirect_to root_url and return unless FILL_IN
+  end
+    
   def destroy
     User.find(params[:id]).destroy
     flash[:success] = "User deleted"
@@ -66,20 +69,24 @@ private
 
   # 前置过滤器
   # 确保用户已登录 
-  def logged_in_user:password_confirmation)
+  def logged_in_user
     unless logged_in?
      store_logged_in?
-     flash[:danger] = "Please log in." redirect_to login_url
-end
-end
+     flash[:danger] = "Please log in." 
+     
+     redirect_to login_url
+  end
 
-# 确保是正确的用户 
-def correct_user@user = User.find(params[:id])
+
+ # 确保是正确的用户 
+ def correct_user
+  @user = User.find(params[:id])
   redirect_to(root_url) unless current_user?(@user)
-end
+ end
 
-# 确保是管理员
-def admin_user
+ # 确保是管理员
+ def admin_user
   redirect_to(root_url) unless current_user.admin?
-end
+ end
+
 end

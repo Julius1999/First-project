@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'password_resets/new'
+
+  get 'password_resets/edit'
+
   get 'sessions/new'
 
   # get 'users/new'
@@ -17,4 +21,5 @@ Rails.application.routes.draw do
   resources :users
   resources :account_activations, only: [:edit]
   # 为 AccountActivations 控制器的 edit 动作添加路由
+  resources :password_resets, only: [:new, :create, :edit, :update]
 end
