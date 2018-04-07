@@ -72,6 +72,13 @@ class User < ApplicationRecord
   def password_reset_expired?
      reset_sent_at < 2.hours.ago 
   end
+
+  # 实现动态流原型
+  # 完整的实现参见第 14 章 
+  def feed
+    Micropost.where("user_id = ?", id)
+  end
+
   
   private
     # 把电子邮件地址转换成小写 

@@ -62,20 +62,20 @@ private
 
 
    def user_params
-     params.require(:user).permit(:name, :email, :password,
+     params.require(:user).permit(:name, :email,                                :password,
                                   :password_confirmation)
    end
 
 
   # 前置过滤器
-  # 确保用户已登录 
-  def logged_in_user
-    unless logged_in?
-     store_logged_in?
-     flash[:danger] = "Please log in." 
+  # # 确保用户已登录 
+  # def logged_in_user
+  #   unless logged_in?
+  #    store_logged_in?
+  #    flash[:danger] = "Please log in." 
      
-     redirect_to login_url
-  end
+  #    redirect_to login_url
+  # end
 
 
  # 确保是正确的用户 

@@ -22,4 +22,5 @@ Rails.application.routes.draw do
   resources :account_activations, only: [:edit]
   # 为 AccountActivations 控制器的 edit 动作添加路由
   resources :password_resets, only: [:new, :create, :edit, :update]
+  resources :microposts, only: [:create, :destroy]
 end
